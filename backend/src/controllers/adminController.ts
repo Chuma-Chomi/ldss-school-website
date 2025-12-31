@@ -27,6 +27,7 @@ export const createUser = asyncHandler(async (req: Request, res: Response, next:
   const user = await prisma.user.create({
     data: {
       id,
+      email: `${id.toLowerCase()}@ldss.edu.zm`,
       password: hashedPassword,
       role: role.toUpperCase(),
       profile: {
