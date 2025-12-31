@@ -13,10 +13,38 @@ dotenv.config();
 const app = express();
 app.use(cors({
   origin: function(origin, callback) {
+    console.log('CORS request from origin:', origin);
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    
     // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    // Allow all origins in development
-    return callback(null, true);
+    if (!origin) {
+      console.log('No origin - allowing');
+      return callback(null, true);
+    }
+    
+    // Allowed origins
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'https://lukuludaysecondaryschool.netlify.app',
+      'https://ldss-website.onrender.com'
+    ];
+    
+    // Check if origin is in allowed list (always check, regardless of NODE_ENV)
+    if (allowedOrigins.includes(origin)) {
+      console.log('Origin allowed:', origin);
+      return callback(null, true);
+    }
+    
+    // Also allow all localhost and netlify preview URLs
+    if (origin.includes('localhost') || origin.includes('netlify.app')) {
+      console.log('Localhost/Netlify origin allowed:', origin);
+      return callback(null, true);
+    }
+    
+    console.log('CORS blocked origin:', origin);
+    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
