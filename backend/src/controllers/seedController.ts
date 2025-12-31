@@ -7,31 +7,14 @@ export const seedDatabase = async (req: Request, res: Response) => {
   try {
     console.log('Starting database seeding...');
 
-    // Reset database schema completely
-    try {
-      await prisma.$executeRaw`DROP SCHEMA public CASCADE`;
-      await prisma.$executeRaw`CREATE SCHEMA public`;
-      console.log('Database schema reset');
-      
-      // Wait a moment for schema to be ready
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    } catch (error) {
-      console.log('Schema reset failed, continuing...');
-    }
-
-    // Clear any existing data
-    try {
-      await prisma.announcement.deleteMany();
-      await prisma.enrollment.deleteMany();
-      await prisma.attendance.deleteMany();
-      await prisma.class.deleteMany();
-      await prisma.student.deleteMany();
-      await prisma.staff.deleteMany();
-      await prisma.profile.deleteMany();
-      await prisma.user.deleteMany();
-    } catch (error) {
-      console.log('Clear data failed, continuing...');
-    }
+    await prisma.announcement.deleteMany();
+    await prisma.enrollment.deleteMany();
+    await prisma.attendance.deleteMany();
+    await prisma.class.deleteMany();
+    await prisma.student.deleteMany();
+    await prisma.staff.deleteMany();
+    await prisma.profile.deleteMany();
+    await prisma.user.deleteMany();
 
     // Create Admin user
     const adminPassword = await bcrypt.hash('LDSSadmin123', 10);
@@ -87,18 +70,19 @@ export const seedDatabase = async (req: Request, res: Response) => {
     });
 
     // Create Learner user
+    const learnerPassword = await bcrypt.hash('LDSS2025', 10);
     const learnerUser = await prisma.user.create({
       data: {
         id: '202500123456',
         email: 'learner@ldss.edu.zm',
-        password: 'LDSS2025', // Not hashed for simplicity in seed
+        password: learnerPassword,
         role: Role.STUDENT,
         profile: {
           create: {
             firstName: 'John',
             lastName: 'Banda',
             phone: '+260555555555',
-            type: ProfileType.LEARNER,
+            type: ProfileType.STUDENT,
             student: {
               create: {
                 learnerId: '202500123456',
@@ -162,6 +146,39 @@ export const seedDatabase = async (req: Request, res: Response) => {
       success: false,
       message: 'Seeding failed',
       error: error.message
+    });
+  }
+};
+
+export const seedStatus = async (_req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        role: true,
+        email: true,
+        profile: {
+          select: {
+            firstName: true,
+            lastName: true,
+            type: true,
+          },
+        },
+      },
+      orderBy: { id: 'asc' },
+    });
+
+    res.json({
+      success: true,
+      count: users.length,
+      users,
+    });
+  } catch (error: any) {
+    console.error('Seed status error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Seed status failed',
+      error: error.message,
     });
   }
 };

@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id        String   @id
-  email     String?  @unique
+  email     String   @unique
   password  String
   role      Role
   profile   Profile?
@@ -21,7 +21,6 @@ model Profile {
   id        String   @id @default(cuid())
   firstName String
   lastName  String
-  email     String?
   phone     String?
   user      User     @relation(fields: [userId], references: [id])
   userId    String   @unique
@@ -123,9 +122,8 @@ enum Role {
 }
 
 enum ProfileType {
-  ADMIN
+  STUDENT
   STAFF
-  LEARNER
 }
 
 enum GradeLevel {
