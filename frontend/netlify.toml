@@ -7,5 +7,12 @@
   to = "/index.html"
   status = 200
 
+# API Proxy to Render backend - avoids CORS issues completely
+[[redirects]]
+  from = "/api/*"
+  to = "https://ldss-backend-5tl3.onrender.com/api/:splat"
+  status = 200
+  force = true
+
 [build.environment]
   NODE_VERSION = "18"
