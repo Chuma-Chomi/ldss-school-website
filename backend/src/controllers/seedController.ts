@@ -7,15 +7,31 @@ export const seedDatabase = async (req: Request, res: Response) => {
   try {
     console.log('Starting database seeding...');
 
-    // Clear existing data
-    await prisma.announcement.deleteMany();
-    await prisma.enrollment.deleteMany();
-    await prisma.attendance.deleteMany();
-    await prisma.class.deleteMany();
-    await prisma.student.deleteMany();
-    await prisma.staff.deleteMany();
-    await prisma.profile.deleteMany();
-    await prisma.user.deleteMany();
+    // Reset database schema completely
+    try {
+      await prisma.$executeRaw`DROP SCHEMA public CASCADE`;
+      await prisma.$executeRaw`CREATE SCHEMA public`;
+      console.log('Database schema reset');
+      
+      // Wait a moment for schema to be ready
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    } catch (error) {
+      console.log('Schema reset failed, continuing...');
+    }
+
+    // Clear any existing data
+    try {
+      await prisma.announcement.deleteMany();
+      await prisma.enrollment.deleteMany();
+      await prisma.attendance.deleteMany();
+      await prisma.class.deleteMany();
+      await prisma.student.deleteMany();
+      await prisma.staff.deleteMany();
+      await prisma.profile.deleteMany();
+      await prisma.user.deleteMany();
+    } catch (error) {
+      console.log('Clear data failed, continuing...');
+    }
 
     // Create Admin user
     const adminPassword = await bcrypt.hash('LDSSadmin123', 10);
