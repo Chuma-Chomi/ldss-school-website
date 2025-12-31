@@ -66,7 +66,7 @@ After backend is deployed, update frontend:
 
 1. Create `frontend/.env.production`:
 ```
-VITE_API_URL=https://your-backend-url.onrender.com
+VITE_API_URL=https://api.render.com/deploy/srv-d59vmnchg0os73ckbo5g?key=fwsJarK8ses
 ```
 
 2. Rebuild frontend: `npm run build`
