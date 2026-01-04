@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  LEARNER
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(LEARNER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  studentProfile StudentProfile?
+  staffProfile   StaffProfile?
+}
+
+model StudentProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  admissionNo String   @unique
+  classId     String?
+  class       Class?   @relation(fields: [classId], references: [id])
+  grades      Grade[]
+  attendance  Attendance[]
+}
+
+model StaffProfile {
+// ... existing StaffProfile ...
+// (I will append the new model at the end of the file instead of trying to inject it in the middle to avoid errors)
+
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  employeeId  String   @unique
+  department  String?
+  subjects    Subject[]
+}
+
+model Class {
+  id       String           @id @default(uuid())
+  name     String           @unique
+  students StudentProfile[]
+  resources Resource[]
+}
+
+model Subject {
+  id         String         @id @default(uuid())
+  name       String
+  code       String         @unique
+  teachers   StaffProfile[]
+  grades     Grade[]
+  resources  Resource[]
+}
+
+model Grade {
+  id        String         @id @default(uuid())
+  score     Float
+  term      String
+  year      Int
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id])
+  subjectId String
+  subject   Subject        @relation(fields: [subjectId], references: [id])
+  createdAt DateTime       @default(now())
+
+  @@unique([studentId, subjectId, term, year])
+}
+
+model Attendance {
+  id        String         @id @default(uuid())
+  date      DateTime
+  status    AttendanceStatus
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id])
+  createdAt DateTime       @default(now())
+
+  @@unique([studentId, date])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+model Resource {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  fileUrl     String
+  fileType    String
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  classId     String?
+  class       Class?   @relation(fields: [classId], references: [id])
+  uploadedBy  String
+  createdAt   DateTime @default(now())
+}
