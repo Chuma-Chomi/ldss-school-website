@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Card, CardTitle } from '../../components/ui/Card';
+import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Trash2, UserPlus, Search, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -220,8 +220,8 @@ export const UserManagement = () => {
                                             <td className="p-4 text-gray-600">{user.email}</td>
                                             <td className="p-4">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-semibold ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' :
-                                                        user.role === 'STAFF' ? 'bg-blue-100 text-blue-700' :
-                                                            'bg-green-100 text-green-700'
+                                                    user.role === 'STAFF' ? 'bg-blue-100 text-blue-700' :
+                                                        'bg-green-100 text-green-700'
                                                     }`}>
                                                     {user.role}
                                                 </span>

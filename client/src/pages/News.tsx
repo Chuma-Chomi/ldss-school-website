@@ -1,5 +1,5 @@
 import { Calendar, Tag, ArrowRight } from 'lucide-react';
-import { Card, CardTitle, CardDescription } from '../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 
 export const News = () => {
@@ -84,8 +84,8 @@ export const News = () => {
                             <button
                                 key={index}
                                 className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${index === 0
-                                        ? 'bg-emerald-800 text-white'
-                                        : 'bg-white text-gray-700 hover:bg-emerald-50 border border-gray-300'
+                                    ? 'bg-emerald-800 text-white'
+                                    : 'bg-white text-gray-700 hover:bg-emerald-50 border border-gray-300'
                                     }`}
                             >
                                 {category}

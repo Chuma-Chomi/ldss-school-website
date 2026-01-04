@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Upload, File, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Upload, CheckCircle } from 'lucide-react';
 import API_URL from '../../config/api';
 
 interface ClassItem {

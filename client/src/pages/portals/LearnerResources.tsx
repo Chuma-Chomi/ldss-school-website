@@ -54,7 +54,7 @@ export const LearnerResources = () => {
     // Get unique subjects for filter dropdown
     const subjects = ['All', ...Array.from(new Set(resources.map(r => r.subject.name)))];
 
-    const getFileIcon = (type: string) => {
+    const getFileIcon = (_type: string) => {
         // Simple mapping, could be more specific
         return <FileText className="w-8 h-8 text-emerald-600" />;
     };

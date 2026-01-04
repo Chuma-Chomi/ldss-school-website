@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BookOpen, Users, Award, Mail, Phone } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card, CardTitle, CardDescription } from '../components/ui/Card';
-import { Link } from 'react-router-dom';
+
 
 export const Home = () => {
     const [activeTab, setActiveTab] = useState('academics');

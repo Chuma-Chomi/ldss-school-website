@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Card, CardTitle } from '../../components/ui/Card';
+import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, BookOpen, User, Calendar, Trophy } from 'lucide-react';
+import { ArrowLeft, User, Trophy } from 'lucide-react';
 
 interface Grade {
     id: string;
