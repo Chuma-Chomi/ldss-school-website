@@ -5,6 +5,18 @@ import bcrypt from 'bcrypt';
 const router = express.Router();
 const prisma = new PrismaClient(); // Render will use its own env vars
 
+
+router.get('/debug-db', (req, res) => {
+    const url = process.env.DATABASE_URL || 'NOT_SET';
+    // Hide password
+    const safeUrl = url.replace(/:([^:@]+)@/, ':****@');
+    res.json({
+        message: 'Debug Info',
+        url: safeUrl,
+        env_node_env: process.env.NODE_ENV
+    });
+});
+
 router.get('/run-seed', async (req, res) => {
     try {
         console.log('🌱 Seeding database via API...');
