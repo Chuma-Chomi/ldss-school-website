@@ -9,6 +9,7 @@ import classRoutes from './routes/classRoutes.js';
 import academicRoutes from './routes/academicRoutes.js';
 import attendanceRoutes from './routes/attendanceRoutes.js';
 import resourceRoutes from './routes/resourceRoutes.js';
+import seedRoute from './routes/seedRoute.js';
 import path from 'path';
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use('/api/classes', classRoutes);
 app.use('/api/academic', academicRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/resources', resourceRoutes);
+app.use('/api', seedRoute);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('LDSS Backend API Running');
