@@ -48,6 +48,9 @@
   - [x] **File Uploads**: Admin/Staff can upload PDFs/Images
   - [x] **Resource Library**: Students can view and download files
 
+- [x] **Timetables & Scheduling**: Weekly grid, teacher allocation
+- [x] **School Calendar**: Events, Term dates
+- [x] **Reporting**: Report Cards (PDF), System Settings
 - [ ] **Real-time Notifications** (Optional/Pending)
 
 ## ✅ Phase 6: Deployment (PENDING)

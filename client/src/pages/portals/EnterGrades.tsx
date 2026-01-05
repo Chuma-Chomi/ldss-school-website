@@ -20,8 +20,19 @@ interface Student {
     id: string;
     admissionNo: string;
     user: { name: string };
-    grades: { subjectId: string; score: number; term: string; year: number }[];
-    currentScore?: string; // Local state for input
+    grades: {
+        subjectId: string;
+        test1?: number;
+        test2?: number;
+        exam?: number;
+        total?: number;
+        term: string;
+        year: number
+    }[];
+    // Local state for inputs
+    test1Str?: string;
+    test2Str?: string;
+    examStr?: string;
 }
 
 export const EnterGrades = () => {
@@ -56,7 +67,7 @@ export const EnterGrades = () => {
 
     const fetchClasses = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/classes', {
+            const res = await fetch('/api/classes', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) setClasses(await res.json());
@@ -67,7 +78,7 @@ export const EnterGrades = () => {
 
     const fetchSubjects = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/academic/subjects', {
+            const res = await fetch('/api/academic/subjects', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) setSubjects(await res.json());
@@ -79,13 +90,13 @@ export const EnterGrades = () => {
     const fetchStudents = async (classId: string) => {
         setIsLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/academic/class/${classId}/students`, {
+            const res = await fetch(`/api/academic/class/${classId}/students`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
                 const data: Student[] = await res.json();
 
-                // Map existing grades to current scores if they exist
+                // Map existing grades to current inputs if they exist
                 const studentsWithScores = data.map(student => {
                     const existingGrade = student.grades.find(
                         g => g.subjectId === selectedSubject &&
@@ -94,7 +105,9 @@ export const EnterGrades = () => {
                     );
                     return {
                         ...student,
-                        currentScore: existingGrade ? existingGrade.score.toString() : ''
+                        test1Str: existingGrade?.test1?.toString() || '',
+                        test2Str: existingGrade?.test2?.toString() || '',
+                        examStr: existingGrade?.exam?.toString() || ''
                     };
                 });
 
@@ -107,10 +120,29 @@ export const EnterGrades = () => {
         }
     };
 
-    const handleScoreChange = (studentId: string, score: string) => {
+    const handleInputChange = (studentId: string, field: 'test1Str' | 'test2Str' | 'examStr', value: string) => {
         setStudents(prev => prev.map(s =>
-            s.id === studentId ? { ...s, currentScore: score } : s
+            s.id === studentId ? { ...s, [field]: value } : s
         ));
+    };
+
+    const calculateTotal = (s: Student) => {
+        const t1 = parseFloat(s.test1Str || '0');
+        const t2 = parseFloat(s.test2Str || '0');
+        const ex = parseFloat(s.examStr || '0');
+        return (t1 + t2 + ex).toFixed(0);
+    };
+
+    const calculateGrade = (total: number) => {
+        if (total >= 75) return { grade: '1', desc: 'Distinction', color: 'bg-green-100 text-green-700' };
+        if (total >= 70) return { grade: '2', desc: 'Distinction', color: 'bg-green-50 text-green-600' };
+        if (total >= 65) return { grade: '3', desc: 'Merit', color: 'bg-blue-100 text-blue-700' };
+        if (total >= 60) return { grade: '4', desc: 'Merit', color: 'bg-blue-50 text-blue-600' };
+        if (total >= 55) return { grade: '5', desc: 'Credit', color: 'bg-yellow-100 text-yellow-700' };
+        if (total >= 50) return { grade: '6', desc: 'Credit', color: 'bg-yellow-50 text-yellow-600' };
+        if (total >= 45) return { grade: '7', desc: 'Pass', color: 'bg-orange-100 text-orange-700' };
+        if (total >= 40) return { grade: '8', desc: 'Pass', color: 'bg-orange-50 text-orange-600' };
+        return { grade: '9', desc: 'Fail', color: 'bg-red-100 text-red-700' };
     };
 
     const handleSave = async () => {
@@ -121,10 +153,12 @@ export const EnterGrades = () => {
 
         setIsSaving(true);
         const gradesPayload = students
-            .filter(s => s.currentScore && s.currentScore.trim() !== '')
+            .filter(s => (s.test1Str || s.test2Str || s.examStr))
             .map(s => ({
                 studentId: s.id,
-                score: s.currentScore
+                test1: s.test1Str || 0,
+                test2: s.test2Str || 0,
+                exam: s.examStr || 0
             }));
 
         if (gradesPayload.length === 0) {
@@ -134,7 +168,7 @@ export const EnterGrades = () => {
         }
 
         try {
-            const res = await fetch('http://localhost:5000/api/academic/grades', {
+            const res = await fetch('/api/academic/grades', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -174,7 +208,7 @@ export const EnterGrades = () => {
                         </Link>
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">Enter Grades</h1>
-                            <p className="text-gray-500">Record assessment results for your class</p>
+                            <p className="text-gray-500">Record Continuous Assessment & Exam Scores</p>
                         </div>
                     </div>
                     <Button onClick={handleSave} disabled={isSaving || !selectedClass || !selectedSubject}>
@@ -242,28 +276,24 @@ export const EnterGrades = () => {
                             <table className="w-full text-left">
                                 <thead className="bg-gray-50 text-gray-600 text-sm">
                                     <tr>
-                                        <th className="p-4">Admission No</th>
+                                        <th className="p-4 w-40">Admission No</th>
                                         <th className="p-4">Student Name</th>
-                                        <th className="p-4 w-48">Score (%)</th>
-                                        <th className="p-4 w-32">Grade</th>
+                                        <th className="p-4 w-32 text-center">Test 1 (20)</th>
+                                        <th className="p-4 w-32 text-center">Test 2 (20)</th>
+                                        <th className="p-4 w-32 text-center">Exam (60)</th>
+                                        <th className="p-4 w-24 text-center">Total</th>
+                                        <th className="p-4 w-32 text-center">Grade</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
                                     {isLoading ? (
-                                        <tr><td colSpan={4} className="p-8 text-center">Loading students...</td></tr>
+                                        <tr><td colSpan={7} className="p-8 text-center">Loading students...</td></tr>
                                     ) : students.length === 0 ? (
-                                        <tr><td colSpan={4} className="p-8 text-center text-red-500">No students found in this class yet.</td></tr>
+                                        <tr><td colSpan={7} className="p-8 text-center text-red-500">No students found in this class yet.</td></tr>
                                     ) : (
                                         students.map(student => {
-                                            const score = parseFloat(student.currentScore || '0');
-                                            let grade = '-';
-                                            if (student.currentScore) {
-                                                if (score >= 80) grade = 'A'; // Distinction
-                                                else if (score >= 70) grade = 'B'; // Merit
-                                                else if (score >= 60) grade = 'C'; // Credit
-                                                else if (score >= 50) grade = 'D'; // Pass
-                                                else grade = 'F'; // Fail
-                                            }
+                                            const total = parseFloat(calculateTotal(student));
+                                            const { grade, color } = calculateGrade(total);
 
                                             return (
                                                 <tr key={student.id} className="hover:bg-gray-50">
@@ -271,24 +301,40 @@ export const EnterGrades = () => {
                                                     <td className="p-4 font-medium">{student.user.name}</td>
                                                     <td className="p-4">
                                                         <input
-                                                            type="number"
-                                                            min="0" max="100"
-                                                            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                                                            placeholder="Enter score"
-                                                            value={student.currentScore}
-                                                            onChange={e => handleScoreChange(student.id, e.target.value)}
-                                                            disabled={!selectedSubject}
+                                                            type="number" min="0" max="20"
+                                                            className="w-full p-2 border rounded text-center focus:ring-2 focus:ring-emerald-500 outline-none"
+                                                            value={student.test1Str}
+                                                            onChange={e => handleInputChange(student.id, 'test1Str', e.target.value)}
+                                                            placeholder="-"
                                                         />
                                                     </td>
-                                                    <td className="p-4 font-bold">
-                                                        <span className={`px-3 py-1 rounded-full text-sm ${grade === 'A' ? 'bg-green-100 text-green-700' :
-                                                                grade === 'B' ? 'bg-blue-100 text-blue-700' :
-                                                                    grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
-                                                                        grade === 'F' ? 'bg-red-100 text-red-700' :
-                                                                            'bg-gray-100 text-gray-600'
-                                                            }`}>
-                                                            {grade}
-                                                        </span>
+                                                    <td className="p-4">
+                                                        <input
+                                                            type="number" min="0" max="20"
+                                                            className="w-full p-2 border rounded text-center focus:ring-2 focus:ring-emerald-500 outline-none"
+                                                            value={student.test2Str}
+                                                            onChange={e => handleInputChange(student.id, 'test2Str', e.target.value)}
+                                                            placeholder="-"
+                                                        />
+                                                    </td>
+                                                    <td className="p-4">
+                                                        <input
+                                                            type="number" min="0" max="60"
+                                                            className="w-full p-2 border rounded text-center focus:ring-2 focus:ring-emerald-500 outline-none"
+                                                            value={student.examStr}
+                                                            onChange={e => handleInputChange(student.id, 'examStr', e.target.value)}
+                                                            placeholder="-"
+                                                        />
+                                                    </td>
+                                                    <td className="p-4 text-center font-bold text-gray-800">
+                                                        {total > 0 ? total : '-'}
+                                                    </td>
+                                                    <td className="p-4 text-center">
+                                                        {total > 0 && (
+                                                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${color}`}>
+                                                                {grade}
+                                                            </span>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             );

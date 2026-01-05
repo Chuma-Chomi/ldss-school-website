@@ -49,7 +49,7 @@ export const TakeAttendance = () => {
 
     const fetchClasses = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/classes', {
+            const res = await fetch('/api/classes', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) setClasses(await res.json());
@@ -61,7 +61,7 @@ export const TakeAttendance = () => {
     const fetchStudents = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/attendance/class/${selectedClass}?date=${selectedDate}`, {
+            const res = await fetch(`/api/attendance/class/${selectedClass}?date=${selectedDate}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -108,7 +108,7 @@ export const TakeAttendance = () => {
         }
 
         try {
-            const res = await fetch('http://localhost:5000/api/attendance/submit', {
+            const res = await fetch('/api/attendance/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

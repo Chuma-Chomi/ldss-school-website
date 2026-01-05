@@ -1,6 +1,5 @@
-$env:DATABASE_URL = 'postgresql://postgres:v$UY5vZc4bmY!7b@db.iqepgikzlfmlnievxnog.supabase.co:5432/postgres'
-Write-Host "Pushing schema..."
-npx prisma db push > remote_log.txt 2>&1
+$env:DATABASE_URL = 'postgresql://postgres.iqepgikzlfmlnievxnog:v$UY5vZc4bmY!7b@aws-1-eu-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true'
+Write-Host "Pushing schema to Remote DB (Pooler)..."
+npx prisma db push --accept-data-loss
 Write-Host "Seeding..."
-npx tsx src/seed.ts >> remote_log.txt 2>&1
-Write-Host "Done! Check remote_log.txt"
+npx tsx src/seed.ts

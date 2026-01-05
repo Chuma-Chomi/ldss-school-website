@@ -34,7 +34,7 @@ export const UserManagement = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/users', {
+            const response = await fetch('/api/users', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -53,7 +53,7 @@ export const UserManagement = () => {
     const handleCreateUser = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/users', {
+            const response = await fetch('/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const UserManagement = () => {
         if (!window.confirm('Are you sure you want to delete this user?')) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/users/${id}`, {
+            const response = await fetch(`/api/users/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

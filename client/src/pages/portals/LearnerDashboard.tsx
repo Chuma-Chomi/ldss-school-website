@@ -1,5 +1,6 @@
-import { BookOpen, FileText, LogOut, Calendar, Trophy, BarChart3, Download, Clock } from 'lucide-react';
+import { BookOpen, FileText, LogOut, Calendar, Trophy, BarChart3, Download, Clock, Bell, Mail, CalendarRange } from 'lucide-react';
 import { Card, CardTitle, CardDescription } from '../../components/ui/Card';
+import { AnnouncementFeed } from '../../components/AnnouncementFeed';
 import { Button } from '../../components/ui/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -126,8 +127,30 @@ export const LearnerDashboard = () => {
                             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
                                 <Calendar className="w-6 h-6 text-blue-800" />
                             </div>
-                            <CardTitle className="mb-2 text-base">Timetable</CardTitle>
-                            <CardDescription className="text-xs">View class schedule</CardDescription>
+                            <CardTitle className="mb-2 text-base">View Timetable</CardTitle>
+                            <CardDescription className="text-xs">Check your schedule</CardDescription>
+                        </Card>
+
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/learner/assignments')}
+                        >
+                            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                                <FileText className="w-6 h-6 text-indigo-800" />
+                            </div>
+                            <CardTitle className="mb-2 text-base">Assignments</CardTitle>
+                            <CardDescription className="text-xs">View & submit homework</CardDescription>
+                        </Card>
+
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/messages')}
+                        >
+                            <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
+                                <Mail className="w-6 h-6 text-teal-800" />
+                            </div>
+                            <CardTitle className="mb-2 text-base">Messages</CardTitle>
+                            <CardDescription className="text-xs">Contact teachers</CardDescription>
                         </Card>
 
                         <Card
@@ -141,12 +164,26 @@ export const LearnerDashboard = () => {
                             <CardDescription className="text-xs">Study materials</CardDescription>
                         </Card>
 
-                        <Card className="p-6 hover:shadow-lg cursor-pointer transition-all group">
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/learner/attendance')}
+                        >
                             <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
-                                <Trophy className="w-6 h-6 text-orange-800" />
+                                <Calendar className="w-6 h-6 text-orange-800" />
                             </div>
-                            <CardTitle className="mb-2 text-base">Achievements</CardTitle>
-                            <CardDescription className="text-xs">View awards</CardDescription>
+                            <CardTitle className="mb-2 text-base">My Attendance</CardTitle>
+                            <CardDescription className="text-xs">View attendance stats</CardDescription>
+                        </Card>
+
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/calendar')}
+                        >
+                            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-200 transition-colors">
+                                <CalendarRange className="w-6 h-6 text-red-800" />
+                            </div>
+                            <CardTitle className="mb-2 text-base">School Calendar</CardTitle>
+                            <CardDescription className="text-xs">Term dates & Events</CardDescription>
                         </Card>
                     </div>
                 </div>
@@ -195,7 +232,18 @@ export const LearnerDashboard = () => {
                                 </div>
                             ))}
                         </div>
-                        <Button variant="ghost" className="w-full mt-4">View Full Calendar</Button>
+
+                        {/* Announcements */}
+                        <div className="grid md:grid-cols-1 gap-6 mt-6">
+                            <Card className="p-6">
+                                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                    <Bell className="w-5 h-5 text-orange-600" />
+                                    Latest Announcements
+                                </h3>
+                                <AnnouncementFeed limit={3} />
+                            </Card>
+                        </div>
+                        <Button variant="ghost" className="w-full mt-4" onClick={() => navigate('/calendar')}>View Full Calendar</Button>
                     </Card>
                 </div>
 

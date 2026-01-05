@@ -3,11 +3,15 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, User, Trophy } from 'lucide-react';
+import { ArrowLeft, User, Trophy, Printer } from 'lucide-react';
 
 interface Grade {
     id: string;
     score: number;
+    test1?: number;
+    test2?: number;
+    exam?: number;
+    total?: number;
     term: string;
     year: number;
     subject: {
@@ -35,7 +39,7 @@ export const MyResults = () => {
 
     const fetchResults = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/academic/my-results', {
+            const res = await fetch('/api/academic/my-results', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -108,6 +112,12 @@ export const MyResults = () => {
                             <h1 className="text-2xl font-bold text-gray-900">My Results</h1>
                             <p className="text-gray-500">Academic Performance Report</p>
                         </div>
+                        <Link to="/report-card" target="_blank">
+                            <Button variant="outline">
+                                <Printer className="w-4 h-4 mr-2" />
+                                Print Report Card
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 
@@ -156,31 +166,44 @@ export const MyResults = () => {
                                 <thead className="bg-white border-b border-gray-100 text-gray-600 text-sm">
                                     <tr>
                                         <th className="p-4">Subject</th>
-                                        <th className="p-4 w-32">Score (%)</th>
-                                        <th className="p-4 w-32">Grade</th>
+                                        <th className="p-4 text-center">C.A. (40%)</th>
+                                        <th className="p-4 text-center">Exam (60%)</th>
+                                        <th className="p-4 text-center">Total (%)</th>
+                                        <th className="p-4 text-center">Grade</th>
                                         <th className="p-4">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
                                     {student.grades.map((grade) => {
-                                        const { grade: letter, color } = calculateGrade(grade.score);
+                                        const caTotal = (grade.test1 || 0) + (grade.test2 || 0);
+                                        const finalScore = grade.total || 0;
+                                        const { grade: letter, color } = calculateGrade(finalScore);
                                         return (
                                             <tr key={grade.id} className="hover:bg-gray-50">
                                                 <td className="p-4">
                                                     <p className="font-medium text-gray-900">{grade.subject.name}</p>
                                                     <p className="text-xs text-gray-400">{grade.subject.code}</p>
                                                 </td>
-                                                <td className="p-4 font-bold text-gray-700">
-                                                    {grade.score}
+                                                <td className="p-4 text-center text-sm text-gray-600">
+                                                    <div className="flex flex-col">
+                                                        <span>{caTotal} / 40</span>
+                                                        <span className="text-xs text-gray-400">(T1: {grade.test1 || '-'} + T2: {grade.test2 || '-'})</span>
+                                                    </div>
+                                                </td>
+                                                <td className="p-4 text-center font-medium text-gray-700">
+                                                    {grade.exam || '-'} / 60
+                                                </td>
+                                                <td className="p-4 text-center font-bold text-gray-900 text-lg">
+                                                    {finalScore}
                                                 </td>
                                                 <td className="p-4">
-                                                    <span className={`w-8 h-8 flex items-center justify-center rounded-lg font-bold text-sm ${color}`}>
+                                                    <span className={`w-8 h-8 mx-auto flex items-center justify-center rounded-lg font-bold text-sm ${color}`}>
                                                         {letter}
                                                     </span>
                                                 </td>
                                                 <td className="p-4">
-                                                    <span className={`text-sm ${grade.score >= 50 ? 'text-green-600' : 'text-red-500'}`}>
-                                                        {grade.score >= 50 ? 'Passed' : 'Failed'}
+                                                    <span className={`text-sm ${finalScore >= 40 ? 'text-green-600' : 'text-red-500'}`}>
+                                                        {finalScore >= 40 ? 'Passed' : 'Failed'}
                                                     </span>
                                                 </td>
                                             </tr>

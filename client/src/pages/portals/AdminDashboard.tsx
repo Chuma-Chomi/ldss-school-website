@@ -1,4 +1,4 @@
-import { Users, BookOpen, GraduationCap, Settings, LogOut, BarChart3, UserPlus, FileText } from 'lucide-react';
+import { Users, BookOpen, GraduationCap, Settings, LogOut, BarChart3, UserPlus, FileText, Megaphone, Mail, Layers, Calendar, CalendarRange } from 'lucide-react';
 import { Card, CardTitle, CardDescription } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useAuth } from '../../contexts/AuthContext';
@@ -24,8 +24,13 @@ export const AdminDashboard = () => {
     const quickActions = [
         { title: 'Manage Users', description: 'Add, edit, or remove users', icon: UserPlus, action: () => navigate('/admin/users') },
         { title: 'View Reports', description: 'Access system analytics', icon: BarChart3, action: () => { } },
-        { title: 'System Settings', description: 'Configure school settings', icon: Settings, action: () => { } },
-        { title: 'Academic Records', description: 'Manage student records', icon: FileText, action: () => { } }
+        { title: 'System Settings', description: 'Configure school settings', icon: Settings, action: () => navigate('/admin/settings') },
+        { title: 'Academic Records', description: 'Manage student records', icon: FileText, action: () => { } },
+        { title: 'Announcements', description: 'Manage school notices', icon: Megaphone, action: () => navigate('/admin/announcements') },
+        { title: 'Messages', description: 'System communications', icon: Mail, action: () => navigate('/messages') },
+        { title: 'Curriculum', description: 'Manage classes & subjects', icon: Layers, action: () => navigate('/admin/curriculum') },
+        { title: 'Timetables', description: 'Schedule Weekly Grid', icon: Calendar, action: () => navigate('/admin/timetable') },
+        { title: 'School Calendar', description: 'Term dates & Events', icon: CalendarRange, action: () => navigate('/calendar') }
     ];
 
     return (

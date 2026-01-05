@@ -35,11 +35,10 @@ export const Home = () => {
                         Lukulu Day Secondary School
                     </h1>
                     <p className="text-2xl text-emerald-100 mb-6 font-semibold">
-                        Soar High like an Eagle for Clear Vision
+                        Soar High Like An Eagle For Clear Vision
                     </p>
                     <p className="text-lg text-white/90 max-w-2xl mx-auto mb-8">
-                        Empowering students through quality education, character development, and academic excellence
-                        in the heart of Lukulu District.
+                        An educational institution located 500m away from the Great North Road in Lavushimanda District, Muchinga Province of Zambia.
                     </p>
                     <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-emerald-800">
                         Learn More
@@ -56,7 +55,7 @@ export const Home = () => {
                             <h2 className="text-3xl font-bold text-gray-900 mb-6">About Our School</h2>
                             <p className="text-gray-600 leading-relaxed mb-4">
                                 Lukulu Day Secondary School is a government-aided educational institution located in
-                                Lukulu District, Western Province of Zambia. Established to provide quality secondary
+                                Lavushimanda District, Muchinga Province of Zambia. Established to provide quality secondary
                                 education, we serve students from across the district and beyond.
                             </p>
                             <p className="text-gray-600 leading-relaxed mb-4">
@@ -93,9 +92,9 @@ export const Home = () => {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-gray-900">Headteacher</h4>
-                                        <p className="text-emerald-800 font-semibold">Mr./Mrs. [Name]</p>
+                                        <p className="text-emerald-800 font-semibold">Mr. Muma Abraham</p>
                                         <p className="text-gray-600 text-sm mt-1">
-                                            Leading the school with vision and commitment to excellence
+                                            “Leading LDSS with dedication to academic excellence and holistic learner development. Our mission is to nurture every learner to reach their full potential.”
                                         </p>
                                     </div>
                                 </div>
@@ -105,9 +104,9 @@ export const Home = () => {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-gray-900">Deputy Headteacher</h4>
-                                        <p className="text-emerald-800 font-semibold">Mr./Mrs. [Name]</p>
+                                        <p className="text-emerald-800 font-semibold">Mr. Mukisi Desmond</p>
                                         <p className="text-gray-600 text-sm mt-1">
-                                            Supporting academic programs and student development
+                                            “Supporting academic programs and learner development.”
                                         </p>
                                     </div>
                                 </div>
@@ -116,12 +115,20 @@ export const Home = () => {
                             {/* Stats */}
                             <div className="mt-8 grid grid-cols-2 gap-4">
                                 <div className="bg-gray-50 p-4 rounded-lg text-center">
-                                    <div className="text-3xl font-bold text-emerald-800">500+</div>
-                                    <div className="text-sm text-gray-600 mt-1">Students</div>
+                                    <div className="text-3xl font-bold text-emerald-800">290</div>
+                                    <div className="text-sm text-gray-600 mt-1">Learners</div>
                                 </div>
                                 <div className="bg-gray-50 p-4 rounded-lg text-center">
-                                    <div className="text-3xl font-bold text-emerald-800">30+</div>
-                                    <div className="text-sm text-gray-600 mt-1">Teachers</div>
+                                    <div className="text-3xl font-bold text-emerald-800">29</div>
+                                    <div className="text-sm text-gray-600 mt-1">Staff Members</div>
+                                </div>
+                                <div className="bg-gray-50 p-4 rounded-lg text-center">
+                                    <div className="text-3xl font-bold text-emerald-800">7</div>
+                                    <div className="text-sm text-gray-600 mt-1">Departments</div>
+                                </div>
+                                <div className="bg-gray-50 p-4 rounded-lg text-center">
+                                    <div className="text-3xl font-bold text-emerald-800">40+</div>
+                                    <div className="text-sm text-gray-600 mt-1">Subjects</div>
                                 </div>
                             </div>
                         </div>
@@ -161,12 +168,13 @@ export const Home = () => {
                                     <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
                                         <BookOpen className="w-6 h-6 text-emerald-800" />
                                     </div>
-                                    <CardTitle className="mb-3">Junior Secondary (Grades 8-9)</CardTitle>
+                                    <CardTitle className="mb-3">Junior Secondary (Forms 1-2)</CardTitle>
                                     <CardDescription className="leading-relaxed">
-                                        Our Junior Secondary program follows the Zambian national curriculum,
-                                        providing a strong foundation in core subjects including Mathematics, English,
-                                        Science, Social Studies, and more. We prepare students for Grade 9 examinations.
+                                        Our Junior Secondary program follows the Zambian Competence-Based Curriculum (CBC), designed by the Curriculum Development Centre (CDC). This learner-centered approach involves hands-on learning and continuous assessment.
                                     </CardDescription>
+                                    <div className="mt-4 text-sm text-emerald-700 font-semibold">
+                                        Classes: Form 1A, 1B, 1C | Form 2A, 2B, 2C
+                                    </div>
                                 </Card>
                                 <Card>
                                     <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
@@ -174,10 +182,11 @@ export const Home = () => {
                                     </div>
                                     <CardTitle className="mb-3">Senior Secondary (Grades 10-12)</CardTitle>
                                     <CardDescription className="leading-relaxed">
-                                        Students in our Senior Secondary program choose from Science, Arts, and Commercial
-                                        pathways, preparing for ECZ examinations. We maintain high academic standards and
-                                        provide comprehensive support for university preparation.
+                                        Our Senior Secondary program prepares learners for Examinations Council of Zambia (ECZ) examinations. Learners choose specialized subject combinations aligned with their career goals.
                                     </CardDescription>
+                                    <div className="mt-4 text-sm text-emerald-700 font-semibold">
+                                        Classes: Grade 10, Grade 11, Grade 12
+                                    </div>
                                 </Card>
                             </div>
                         )}
@@ -289,14 +298,24 @@ export const Home = () => {
                             </a>
                         </Card>
                         <Card>
-                            <div className="text-emerald-800 text-sm font-semibold mb-2">December 1, 2025</div>
-                            <CardTitle className="mb-3">New Science Lab Opened</CardTitle>
+                            <div className="text-emerald-800 text-sm font-semibold mb-2">January, 2026</div>
+                            <CardTitle className="mb-3">Grade 10 Reporting Notice</CardTitle>
                             <CardDescription className="mb-4">
-                                We are proud to announce the opening of our new, state-of-the-art Science laboratory,
-                                enhancing learning opportunities for all students.
+                                Grade 10 learners are required to report in the second week after school opening.
+                                Visit the office for detailed reporting schedules.
                             </CardDescription>
                             <a href="#" className="text-emerald-800 font-semibold text-sm hover:text-emerald-700">
                                 Read More →
+                            </a>
+                        </Card>
+                        <Card>
+                            <div className="text-emerald-800 text-sm font-semibold mb-2">January, 2026</div>
+                            <CardTitle className="mb-3">Grade 9 Results Available</CardTitle>
+                            <CardDescription className="mb-4">
+                                The 2024 Grade 9 examination results are now available. Visit the ECZ website to check your results.
+                            </CardDescription>
+                            <a href="https://www.exams-council.org.zm" target="_blank" rel="noopener noreferrer" className="text-emerald-800 font-semibold text-sm hover:text-emerald-700">
+                                Check Results →
                             </a>
                         </Card>
                     </div>

@@ -60,7 +60,7 @@ export const StudentRecords = () => {
 
     const fetchStudents = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/students', {
+            const response = await fetch('/api/students', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -76,7 +76,7 @@ export const StudentRecords = () => {
 
     const fetchUnenrolledLearners = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/unenrolled', {
+            const response = await fetch('/api/users/unenrolled', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -94,7 +94,7 @@ export const StudentRecords = () => {
 
     const fetchClasses = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/classes', {
+            const response = await fetch('/api/classes', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -113,7 +113,7 @@ export const StudentRecords = () => {
     const handleEnroll = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/students', {
+            const response = await fetch('/api/students', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

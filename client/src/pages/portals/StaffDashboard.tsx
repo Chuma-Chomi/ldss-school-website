@@ -1,4 +1,4 @@
-import { Users, BookOpen, FileText, LogOut, Calendar, TrendingUp, UserCheck, ClipboardList, Upload } from 'lucide-react';
+import { Users, BookOpen, FileText, LogOut, Calendar, TrendingUp, UserCheck, ClipboardList, Upload, Megaphone, Mail, CalendarRange } from 'lucide-react';
 import { Card, CardTitle, CardDescription } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useAuth } from '../../contexts/AuthContext';
@@ -138,6 +138,49 @@ export const StaffDashboard = () => {
                             </div>
                             <CardTitle className="mb-2 text-base">Resources</CardTitle>
                             <CardDescription className="text-xs">Upload study materials</CardDescription>
+                        </Card>
+
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/staff/announcements')}
+                        >
+                            <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-pink-200 transition-colors">
+                                <Megaphone className="w-6 h-6 text-pink-800" />
+                            </div>
+                            <CardTitle className="mb-2 text-base">Announcements</CardTitle>
+                            <CardDescription className="text-xs">Post school notices</CardDescription>
+                        </Card>
+
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/staff/assignments')}
+                        >
+                            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                                <FileText className="w-6 h-6 text-indigo-800" />
+                            </div>
+                            <CardTitle className="mb-2 text-base">Assignments</CardTitle>
+                            <CardDescription className="text-xs">Manage classwork</CardDescription>
+                        </Card>
+
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/messages')}
+                        >
+                            <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
+                                <Mail className="w-6 h-6 text-teal-800" />
+                            </div>
+                            <CardTitle className="mb-2 text-base">Messages</CardTitle>
+                            <CardDescription className="text-xs">Inbox & Sent</CardDescription>
+                        </Card>
+                        <Card
+                            className="p-6 hover:shadow-lg cursor-pointer transition-all group"
+                            onClick={() => navigate('/calendar')}
+                        >
+                            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-200 transition-colors">
+                                <CalendarRange className="w-6 h-6 text-red-800" />
+                            </div>
+                            <CardTitle className="mb-2 text-base">School Calendar</CardTitle>
+                            <CardDescription className="text-xs">Term dates & Events</CardDescription>
                         </Card>
                     </div>
                 </div>
